@@ -1,0 +1,11 @@
+<button
+  mat-flat-button
+  color="primary"
+  type="submit"
+  class="width-100 space-inset-y-1"
+>
+  <ng-container [ngSwitch]="loading">
+    <app-ui-spinner *ngSwitchCase="true"></app-ui-spinner>
+    <ng-content *ngSwitchDefault></ng-content>
+  </ng-container>
+</button>

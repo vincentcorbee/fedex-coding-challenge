@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-card {
+  padding: 0;
+}
+
+.mat-card-content {
+  padding: 16px;
+}
+
+.mat-card-title {
+  padding: 16px 16px 0 16px;
+}
+
+::ng-deep .mat-form-field-suffix {
+  display: flex;
+  align-items: center;
+}

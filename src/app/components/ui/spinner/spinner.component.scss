@@ -1,0 +1,76 @@
+$offset: 187;
+$duration: 1.4s;
+$md: 4rem;
+$sm: 3rem;
+$xs: 2rem;
+
+:host {
+  display: block;
+}
+
+.ui-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  animation: rotator $duration linear infinite;
+}
+
+@keyframes rotator {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.circle {
+  stroke-dasharray: $offset;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  animation: dash $duration ease-in-out infinite;
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: $offset;
+  }
+  50% {
+    stroke-dashoffset: $offset/4;
+    transform: rotate(135deg);
+  }
+  100% {
+    stroke-dashoffset: $offset;
+    transform: rotate(360deg);
+  }
+}
+
+.ui-spinner-size--md {
+  .spinner {
+    width: $md;
+    height: $md;
+  }
+}
+
+.ui-spinner-size--sm {
+  .spinner {
+    width: $sm;
+    height: $sm;
+  }
+}
+
+.ui-spinner-size--xs {
+  .spinner {
+    width: $xs;
+    height: $xs;
+  }
+}
+
+.ui-spinner--color-white {
+  svg {
+    stroke: #fff;
+  }
+}
