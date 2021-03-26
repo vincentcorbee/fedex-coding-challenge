@@ -1,6 +1,42 @@
+@import "~@angular/material/theming";
+
+// Copy the palettes from your selected theme (usually theme.scss).
+$app-primary: mat-palette($mat-indigo);
+$app-accent: mat-palette($mat-light-blue);
+$app-warn: mat-palette($mat-pink);
+$app-succes: mat-palette($mat-green);
+
+// Create your Sass color vars (will be available in all the project)
+$primary: mat-color($app-primary);
+$accent: mat-color($app-accent);
+$warn: mat-color($app-warn);
+$succes: mat-color($app-succes);
+
 :host {
   display: block;
 }
+
+h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  color: $primary;
+}
+
+.success-icon {
+  display: block;
+  width: 4rem;
+  height: 4rem;
+  font-size: 4rem;
+  color: $succes;
+}
+
+.success-message {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
 .mat-form-field {
   width: 100%;
 }
@@ -20,4 +56,24 @@
 ::ng-deep .mat-form-field-suffix {
   display: flex;
   align-items: center;
+}
+
+.ui-notification {
+  display: flex;
+  align-items: center;
+  background-color: $warn;
+  padding: 16px;
+  border-radius: 5px;
+
+  .ui-notification__icon {
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+    color: white;
+    margin-right: 16px;
+  }
+
+  .ui-notification__msg {
+    color: white;
+  }
 }

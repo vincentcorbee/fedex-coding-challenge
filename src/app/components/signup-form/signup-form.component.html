@@ -1,127 +1,146 @@
+<h1>Signup</h1>
 <mat-card>
-  <mat-card-title class="mat-app-background">Signup</mat-card-title>
   <mat-card-content>
-    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-      <div class="row">
-        <mat-form-field appearance="standard">
-          <mat-label>First name</mat-label>
-          <input matInput formControlName="firstName" required />
-          <mat-error> first name is <strong>required</strong> </mat-error>
-        </mat-form-field>
+    <div class="row align-items-center" *ngIf="success; else form">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Registration successfull"
+        class="success-icon"
+        >check</mat-icon
+      >
+      <p class="success-message">Your registration was successfull</p>
+    </div>
+    <ng-template #form>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <mat-form-field appearance="standard">
+            <mat-label>First name</mat-label>
+            <input matInput formControlName="firstName" required />
+            <mat-error> first name is <strong>required</strong> </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field appearance="standard">
+            <mat-label>Last name</mat-label>
+            <input matInput formControlName="lastName" required />
+            <mat-error> last name is <strong>required</strong> </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field appearance="standard" id="email">
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+              formControlName="email"
+              autocomplete="email"
+              required
+            />
+            <mat-error *ngFor="let error of getError('email')">
+              <ng-container [ngSwitch]="error">
+                <ng-container *ngSwitchCase="'pattern'">
+                  Please enter a <strong>valid email</strong>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  Email is <strong>required</strong>
+                </ng-container>
+              </ng-container>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field appearance="standard" id="password">
+            <mat-label>Password</mat-label>
+            <input
+              matInput
+              minlength="8"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              autocomplete="new-password"
+              required
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="showPassword = !showPassword"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="showPassword"
+              type="button"
+            >
+              <mat-icon>{{
+                showPassword ? "visibility" : "visibility_off"
+              }}</mat-icon>
+            </button>
+            <mat-icon
+              matSuffix
+              matTooltip="Password must contain upper and lower case letters, can not contain you first or last name and should be at least 8 characters long"
+              >info</mat-icon
+            >
+            <mat-error *ngFor="let error of getError('password')">
+              <ng-container [ngSwitch]="error">
+                <ng-container *ngSwitchCase="'contain'">
+                  Password must contain
+                  <strong>upper and lower case letters</strong>
+                </ng-container>
+                <ng-container *ngSwitchCase="'notcontain'">
+                  Password can not contain
+                  <strong>first name or last name</strong>
+                </ng-container>
+                <ng-container *ngSwitchCase="'minlength'">
+                  Password must be at least <strong>8 characters</strong>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  Password is <strong>required</strong>
+                </ng-container>
+              </ng-container>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row space-offset-b-2">
+          <mat-form-field appearance="standard" id="verify_password">
+            <mat-label>Verify your password</mat-label>
+            <input
+              matInput
+              [type]="showVerifyPassword ? 'text' : 'password'"
+              formControlName="verify_password"
+              autocomplete="new-password"
+              required
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="showVerifyPassword = !showVerifyPassword"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="showVerifyPassword"
+              type="button"
+            >
+              <mat-icon>{{
+                showVerifyPassword ? "visibility" : "visibility_off"
+              }}</mat-icon>
+            </button>
+            <mat-error *ngFor="let error of getError('verify_password')">
+              <ng-container [ngSwitch]="error">
+                <ng-container *ngSwitchCase="'mismatch'">
+                  Your passwords do <strong>not match</strong>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  Verification password is <strong>required</strong>
+                </ng-container>
+              </ng-container>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row space-offset-t-2">
+          <app-ui-button class="width-100" [loading]="loading" type="submit">
+            Signup
+          </app-ui-button>
+        </div>
+      </form>
+      <div class="row space-offset-t-2" *ngIf="error">
+        <div class="ui-notification ui-notification-type--error">
+          <mat-icon class="ui-notification__icon">error</mat-icon>
+          <span class="ui-notification__msg">{{ error }}</span>
+        </div>
       </div>
-      <div class="row">
-        <mat-form-field appearance="standard">
-          <mat-label>Last name</mat-label>
-          <input matInput formControlName="lastName" required />
-          <mat-error> last name is <strong>required</strong> </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="standard">
-          <mat-label>Email</mat-label>
-          <input
-            matInput
-            formControlName="email"
-            autocomplete="email"
-            required
-          />
-          <mat-error *ngFor="let error of getError('email')">
-            <ng-container [ngSwitch]="error">
-              <span *ngSwitchCase="'email'">
-                Please enter a <strong>valid email</strong>
-              </span>
-              <span *ngSwitchDefault> Email is <strong>required</strong> </span>
-            </ng-container>
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="standard">
-          <mat-label>Password</mat-label>
-          <input
-            matInput
-            minlength="8"
-            [type]="showPassword ? 'text' : 'password'"
-            formControlName="password"
-            autocomplete="new-password"
-            required
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            (click)="showPassword = !showPassword"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="showPassword"
-            type="button"
-          >
-            <mat-icon>{{
-              showPassword ? "visibility" : "visibility_off"
-            }}</mat-icon>
-          </button>
-          <mat-icon
-            matSuffix
-            matTooltip="Password must contain upper and lower case letters, can not contain you first or last name and should be at least 8 characters long"
-            >info</mat-icon
-          >
-          <mat-error *ngFor="let error of getError('password')">
-            <ng-container [ngSwitch]="error">
-              <span *ngSwitchCase="'contain'">
-                Password must contain
-                <strong>upper and lower case letters</strong>
-              </span>
-              <span *ngSwitchCase="'notcontain'">
-                Password can not contain
-                <strong>first name or last name</strong>
-              </span>
-              <span *ngSwitchCase="'minlength'">
-                Password must be at least <strong>8 characters</strong>
-              </span>
-              <span *ngSwitchDefault>
-                Password is <strong>required</strong>
-              </span>
-            </ng-container>
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="row space-offset-b-2">
-        <mat-form-field appearance="standard">
-          <mat-label>Verify your password</mat-label>
-          <input
-            matInput
-            [type]="showVerifyPassword ? 'text' : 'password'"
-            formControlName="verify_password"
-            autocomplete="new-password"
-            required
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            (click)="showVerifyPassword = !showVerifyPassword"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="showVerifyPassword"
-            type="button"
-          >
-            <mat-icon>{{
-              showVerifyPassword ? "visibility" : "visibility_off"
-            }}</mat-icon>
-          </button>
-          <mat-error *ngFor="let error of getError('verify_password')">
-            <ng-container [ngSwitch]="error">
-              <span *ngSwitchCase="'mismatch'">
-                Your passwords do <strong>not match</strong>
-              </span>
-              <span *ngSwitchDefault>
-                Verification password is <strong>required</strong>
-              </span>
-            </ng-container>
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="row space-offset-t-2">
-        <app-ui-button class="width-100" [loading]="loading">
-          Signup
-        </app-ui-button>
-      </div>
-    </form>
+    </ng-template>
   </mat-card-content>
 </mat-card>

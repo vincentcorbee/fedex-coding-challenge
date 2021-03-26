@@ -19,6 +19,11 @@ body {
 
 .row {
   display: flex;
+  flex-direction: column;
+}
+
+.align-items-center {
+  align-items: center;
 }
 
 .space-offset-t-2 {
